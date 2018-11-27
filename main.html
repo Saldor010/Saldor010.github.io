@@ -1,0 +1,62 @@
+<head>
+	<link rel="stylesheet" href="mask.css">
+</head>
+<body>
+	<h1>
+		io.github.saldor010
+	</h1>
+
+	<h3 style="text-align:center">
+		well hello there ( ͡° ͜ʖ ͡°)
+	</h3>
+	
+	<div>
+		<h2 id="sparkles">*.*.*.*</h2>
+	</div>
+	<script>
+		var str = "*.+"
+		str = str.repeat(100)
+		var count = 0
+		
+		var letters = []
+
+		var words = [
+			"   Hello world!  ",
+			"   This is a christmas themed ticker.  ",
+			"   Idk what to put on this website..  ",
+			"   This ticker is going to get cut o-  ",
+			"   Woo woo woo! Get rekt!  ",
+			"   This just in, cube earth confirmed!  ",
+		]
+		
+		var maxCount = (words.length*100)+3
+		
+		for (i=0;i<words.length;i++){
+			for (j=0;j<words[i].length;j++){
+				letters[(i*100)+j] = words[i].substr(words[i].length-j,1)
+			}
+		}
+		
+		function A(){
+			count = count + 1
+			if (count > maxCount){
+				count = 1;
+			}
+			if (letters[count]) {
+				str = letters[count] + str
+			} else if (count%3 == 0){
+				str = "*" + str
+			} else if (count%2 == 0){
+				str = "+" + str
+			} else {
+				str = "." + str
+			}
+			str = str.substr(0,299)
+			document.getElementById("sparkles").innerHTML = str;
+			
+			setTimeout(A,75)
+		}
+		setTimeout(A,75)
+	</script>
+
+</body>
