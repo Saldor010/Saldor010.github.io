@@ -1,0 +1,38 @@
+<head>
+	<link rel="stylesheet" href="mask.css">
+</head>
+<body>
+	<div id="container">
+		<header>
+			<h1>Saldor010.github.io</h1>
+		</header>
+		
+		<nav>
+			<a href="main.html">Home</a>
+			<a href="projects.html">Projects</a>
+			<a href="license.html">License</a>
+			<a href="https://github.com/Saldor010/">Github</a>
+		</nav>
+		
+		<hr>
+		
+		<main>
+			<h2>Solar Evolution</h2>
+			<img class="projectImage" src="solarevolution2.gif" width="300" height="300">
+			<p class="projectParagraph">I wrote Solar Evolution in the Summer of 2019 as a quick side project to see what would happen if I left a couple hundred stars in a physics engine.<p>
+			<p class="projectParagraph">To start off, I wrote a simple physics engine that would calculate the gravitational force between all of the stars in the system. I never optimized this, so to calculate the force exerted on one star, the engine had to look through all of the other stars in the system, leading to slow down. Regardless, the FPS ended up being acceptable. I then set it up so that it would randomly spawn stars throughout the system, and continue to spawn stars if the star count ever fell below a certain limit. I also set it so that if two stars collided with each other, the larger star would absorb the smaller star.<p>
+			<p class="projectParagraph">Now that I had that out of the way, I could sit back and start observing. Near the beginning of the simulation, not much would happen. The tiny stars would all fly around orbiting off of each other at ludicrous speeds. Sometimes hitting each other, but mostly not. After a minute or two, some slightly larger stars would emerge and would quickly grow as a result of their increased gravitational influence.</p>
+			<p class="projectParagraph">However, as the minutes went on, the tiny stars would stay and the slightly bigger stars would disappear as they merged into larger stars. As the larger stars competed for dominance, the energy of the system became erratic: the large gravitational forces became too much for the tiny stars, who would zip about the simulation like crazy.</p>
+			<p class="projectParagraph">Eventually, as the simulation draws to a close after several hours of running, only one mega star remained, often trapped in the corner by the incoming energy of all of the tiny stars, which, after being spawned, would zip over to the mega star in a matter of seconds, only fueling the mega star's power. It was at this point that I decided to end the test, as I knew nothing else would happen.</p>
+			<p class="projectParagraph">That's basically how all of my tests went, it would always end in a mega star being king. Maybe if I had an infinite simulation area, the stars would exhibit different behavior, but then it'd be hard to zoom around and see what's going on and I would probably run into problems with the magnitudes of the numbers as tiny stars are flung into the infinite void. At some point I might revisit this project, but probably not. It was fun while it lasted though!</p>
+			<div class="projectLinks">
+				<p>Source code: <a href=https://github.com/Saldor010/solarEvolution>https://github.com/Saldor010/solarEvolution</a></p>
+			</div>
+		</main>
+		
+		<footer>
+			<p>If you want to contact me, your best bet is to send a friend request on discord at <strong>Saldor010#1406</strong>.</p>
+			<p>All projects listed on this website are licensed under the MIT license unless otherwise specified. <a href="license.html">Click here for more info</a>.</p>
+		</footer>
+	</div>
+</body>
