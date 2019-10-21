@@ -2,6 +2,7 @@ body {
 	background-image: url("background.png");
 	background-attachment: fixed;
 	background-size: cover;
+	padding-bottom: 150px;
 }
 
 h1 {
@@ -25,12 +26,12 @@ h2 {
 
 .projectLinks {
 	background-color: red;
-	width: calc(100% - 300px);
+	width: calc(100% - 30px);
 	padding: 15px;
 	background-color: rgba(45,45,45,0.5);
 	border-radius: 20px;
 	position: relative;
-	left: 150px;
+	left: 15px;
 }
 
 .projectParagraph {
@@ -53,7 +54,8 @@ a {
 
 p {
 	font-family: arial;
-	font-size: 12pt;
+	/*font-size: 12pt;*/
+	/*font-size: 1vw;*/
 	color: #FFFFFF;
 	text-indent: 32px;
 }
@@ -98,7 +100,6 @@ footer {
 	background-color: rgba(45,45,45,0.95);
 	width: 100%;
 	left: 0%;
-	//top: 100%;
 	bottom: 0;
 	position: fixed;
 	padding-top: 10px;
