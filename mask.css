@@ -1,5 +1,5 @@
 body {
-	background-image: url("background.png");
+	background-image: url("background1080.png");
 	background-attachment: fixed;
 	background-size: cover;
 	padding-bottom: 150px;
@@ -50,6 +50,10 @@ nav {
 
 a {
 	color: #BBBBFF;
+}
+
+a[href*='//'] {
+	color: #88BBFF;
 }
 
 p {
@@ -111,4 +115,9 @@ footer {
 	width: 70%;
 	margin: auto;
 	min-height: 100%;
+}
+
+.projectTableSelector:hover {
+	background-color: rgba(255,255,255,0.5);
+	cursor:pointer;
 }

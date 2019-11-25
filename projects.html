@@ -1,5 +1,95 @@
 <head>
 	<link rel="stylesheet" href="mask.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<script>
+		var projects = [];
+		projects[0] = {
+			link: "solarevolution.html",
+			name: "Solar Evolution",
+			began: new Date(2019,7,3),
+			completed: new Date(2019,7,15),
+			platform: "Löve2D",
+			language: "Lua"
+		};
+		projects[1] = {
+			link: false,
+			name: "Car Madness",
+			began: new Date(2019,5,26),
+			completed: 0.80,
+			platform: "Roblox",
+			language: "Lua"
+		};
+		projects[2] = {
+			link: false,
+			name: "Jump, Jump!",
+			began: new Date(2019,5,25),
+			completed: new Date(2019,6,21),
+			platform: "Roblox",
+			language: "Lua"
+		};
+		projects[3] = {
+			link: false,
+			name: "Sentinel Communications",
+			began: new Date(2019,5,6),
+			completed: 0.50,
+			platform: "Löve2D",
+			language: "Lua"
+		};
+		projects[4] = {
+			link: "neuralearth.html",
+			name: "Neural Earth",
+			began: new Date(2019,3,2),
+			completed: new Date(2019,5,2),
+			platform: "Löve2D",
+			language: "Lua"
+		};
+		projects[5] = {
+			link: false,
+			name: "Crypto Project",
+			began: new Date(2018,5,9),
+			completed: new Date(2018,6,23),
+			platform: "PC",
+			language: "Java"
+		};
+		projects[6] = {
+			link: false,
+			name: "Impending Doom",
+			began: new Date(2017,7,11),
+			completed: 0.25,
+			platform: "Computercraft",
+			language: "Lua"
+		};
+		projects[7] = {
+			link: false,
+			name: "Ramuthra's Plane",
+			began: new Date(2017,7,6),
+			completed: 0.50,
+			platform: "Computercraft",
+			language: "Lua"
+		};
+		projects[8] = {
+			link: false,
+			name: "Minigame Chaos",
+			began: new Date(2015,1,28),
+			completed: new Date(2015,11,24),
+			platform: "Roblox",
+			language: "Lua"
+		};
+		projects[9] = {
+			link: false,
+			name: "BLOX Emergency Room",
+			began: new Date(2014,6,16),
+			completed: new Date(2015,1,22),
+			platform: "Roblox",
+			language: "Lua"
+		};
+		
+		function dateToString(d) {
+			return (d.getMonth()+1)+"/"+d.getDate()+"/"+d.getUTCFullYear();
+		}
+	</script>
+	
 </head>
 <body>
 	<div id="container">
@@ -18,85 +108,105 @@
 		
 		<main>
 			<p>The following is a list of projects I've been working on dating back to 2014. You can click on them to go to their respective pages and read about them in detail. (All dates given are in American format)</p>
-			<table>
+			<table id="projectTable">
 				<tr>
-					<th>Name</th>
-					<th>Date Began</th>
-					<th>Progress/Completed Date</th>
-					<th>Platform</th>
-					<th>Language</th>
-				<tr>
-				<tr>
-					<td><a href="solarevolution.html">Solar Evolution</a></td>
-					<td>8/3/19</td>
-					<td>8/15/19</td>
-					<td>Löve2D</td>
-					<td>Lua</td>
-				<tr>
-				<tr>
-					<td>Car Madness</td>
-					<td>6/26/19</td>
-					<td>~80% Complete</td>
-					<td>Roblox</td>
-					<td>Lua</td>
-				<tr>
-				<tr>
-					<td>Jump, Jump!</td>
-					<td>6/25/19</td>
-					<td>7/21/19</td>
-					<td>Roblox</td>
-					<td>Lua</td>
-				<tr>
-				<tr>
-					<td>Sentinel Communications</td>
-					<td>6/6/19</td>
-					<td>~50% Complete</td>
-					<td>Löve2D</td>
-					<td>Lua</td>
-				<tr>
-				<tr>
-					<td>Neural Earth</td>
-					<td>4/2/19</td>
-					<td>6/2/19</td>
-					<td>Löve2D</td>
-					<td>Lua</td>
-				<tr>
-				<tr>
-					<td>Crypto Project</td>
-					<td>6/9/18</td>
-					<td>7/23/18</td>
-					<td>PC</td>
-					<td>Java</td>
-				<tr>
-				<tr>
-					<td><a href="http://www.computercraft.info/forums2/index.php?/topic/28912-impending-doom/">Impending Doom</a></td>
-					<td>8/11/17</td>
-					<td>~25% Complete</td>
-					<td>Computercraft</td>
-					<td>Lua</td>
-				<tr>
-				<tr>
-					<td><a href="http://www.computercraft.info/forums2/index.php?/topic/28935-ramuthras-plane/">Ramuthra's Plane</a></td>
-					<td>8/6/17</td>
-					<td>~50% Complete</td>
-					<td>Computercraft</td>
-					<td>Lua</td>
-				<tr>
-				<tr>
-					<td>Minigame Chaos</td>
-					<td>2/28/15</td>
-					<td>12/24/15</td>
-					<td>Roblox</td>
-					<td>Lua</td>
-				<tr>
-				<tr>
-					<td>BLOX Emergency Room</td>
-					<td>2/22/15</td>
-					<td>7/16/14</td>
-					<td>Roblox</td>
-					<td>Lua</td>
-				<tr>
+					<th class="projectTableSelector" id="projectTableName">Name</th>
+					<th class="projectTableSelector" id="projectTableBegan">Date Began</th>
+					<th class="projectTableSelector" id="projectTableCompleted">Progress/Completed Date</th>
+					<th class="projectTableSelector" id="projectTablePlatform">Platform</th>
+					<th class="projectTableSelector" id="projectTableLanguage">Language</th>
+				</tr>
 			</table>
+			<script>
+				function refreshProjectTable() {
+					var table = document.getElementById("projectTable")
+					while(table.rows.length > 1) {
+						table.deleteRow(-1);
+					}
+					
+					for(var i=0;i<projects.length;i++) {
+						var a = projects[i];
+						var row = table.insertRow(-1);
+						//console.log(a.name);
+						
+						var nameCell = row.insertCell(-1);
+						if(a.link == false) {
+							nameCell.innerHTML = "<td>"+a.name+"</td>";
+						} else {
+							nameCell.innerHTML = "<td><a href="+a.link+">"+a.name+"</a></td>";
+						}
+						row.insertCell(-1).innerHTML = "<td>"+dateToString(a.began)+"</td>";
+						var completedCell = row.insertCell(-1);
+						if(a.completed < 1) {
+							completedCell.innerHTML = "<td>~"+(a.completed*100)+"% Complete</td>";
+						} else {
+							completedCell.innerHTML = "<td>"+dateToString(a.completed)+"</td>";
+						}
+						row.insertCell(-1).innerHTML = "<td>"+a.platform+"</td>";
+						row.insertCell(-1).innerHTML = "<td>"+a.language+"</td>";
+					}
+				}
+				
+				var ascending = false;
+				function sortProjectTable(f) {
+					ascending = !ascending;
+					projects.sort(f);
+					refreshProjectTable();
+				}
+				
+				refreshProjectTable();
+				
+				document.getElementById("projectTableName").onclick = function() {
+				    sortProjectTable(function(a,b){
+						if(ascending) {
+							return a.name<b.name;
+						} else {
+							return a.name>b.name;
+						}
+					});
+				};
+				
+				document.getElementById("projectTableBegan").onclick = function() {
+				    sortProjectTable(function(a,b){
+						if(ascending) {
+							return a.began>b.began;
+						} else {
+							return a.began<b.began;
+						}
+					});
+				};
+				
+				document.getElementById("projectTableCompleted").onclick = function() {
+				    sortProjectTable(function(a,b){
+						if(ascending) {
+							return a.completed>b.completed;
+						} else {
+							return a.completed<b.completed;
+						}
+					});
+				};
+				
+				document.getElementById("projectTablePlatform").onclick = function() {
+				    sortProjectTable(function(a,b){
+						if(ascending) {
+							return a.platform>b.platform;
+						} else {
+							return a.platform<b.platform;
+						}
+					});
+				};
+				
+				document.getElementById("projectTableLanguage").onclick = function() {
+				    sortProjectTable(function(a,b){
+						if(ascending) {
+							return a.language>b.language;
+						} else {
+							return a.language<b.language;
+						}
+					});
+				};
+				
+			</script>
 		</main>
 		
 		<footer>
