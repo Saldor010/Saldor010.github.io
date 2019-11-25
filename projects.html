@@ -108,15 +108,17 @@
 		
 		<main>
 			<p>The following is a list of projects I've been working on dating back to 2014. You can click on them to go to their respective pages and read about them in detail. (All dates given are in American format)</p>
-			<table id="projectTable">
-				<tr>
-					<th class="projectTableSelector" id="projectTableName">Name</th>
-					<th class="projectTableSelector" id="projectTableBegan">Date Began</th>
-					<th class="projectTableSelector" id="projectTableCompleted">Progress/Completed Date</th>
-					<th class="projectTableSelector" id="projectTablePlatform">Platform</th>
-					<th class="projectTableSelector" id="projectTableLanguage">Language</th>
-				</tr>
-			</table>
+			<div id="projectContainer">
+				<table id="projectTable">
+					<tr>
+						<th class="projectTableSelector" id="projectTableName">Name</th>
+						<th class="projectTableSelector" id="projectTableBegan">Date Began</th>
+						<th class="projectTableSelector" id="projectTableCompleted">Progress/Completed Date</th>
+						<th class="projectTableSelector" id="projectTablePlatform">Platform</th>
+						<th class="projectTableSelector" id="projectTableLanguage">Language</th>
+					</tr>
+				</table>
+			</div>
 			<script>
 				function refreshProjectTable() {
 					var table = document.getElementById("projectTable")

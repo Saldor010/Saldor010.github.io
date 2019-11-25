@@ -117,6 +117,10 @@ footer {
 	min-height: 100%;
 }
 
+#projectContainer {
+	overflow-x: auto;
+}
+
 .projectTableSelector:hover {
 	background-color: rgba(255,255,255,0.5);
 	cursor:pointer;
@@ -131,5 +135,9 @@ footer {
 	}
 	.projectImage {
 		float: none;
+	}
+	footer {
+		padding-top: 0px;
+		padding-bottom: 0px;
 	}
 }
