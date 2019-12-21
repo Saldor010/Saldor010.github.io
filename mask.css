@@ -25,7 +25,6 @@ h2 {
 }
 
 .projectLinks {
-	background-color: red;
 	width: calc(100% - 30px);
 	padding: 15px;
 	background-color: rgba(45,45,45,0.5);
@@ -140,4 +139,36 @@ footer {
 		padding-top: 0px;
 		padding-bottom: 0px;
 	}
+}
+
+.gameFrame {
+	width: 80%;
+	height: 80%;
+	margin: auto;
+}
+
+.gameInfo {
+	width: 19%;
+	height: 50%;
+	float: right;
+	background-color: rgba(45,45,45,0.95);
+	border-radius: 20px;
+}
+
+.gameInstructions {
+	width: calc(100% - 30px);
+	margin: auto;
+	font-family: arial;
+	font-size: 12pt;
+	color: #FFFFFF;
+}
+
+.gameIcon {
+	width: 250;
+	height: 250;
+	background-color: rgba(45,45,45,0.95);
+}
+
+.gameIcon:hover {
+	cursor: pointer;
 }
