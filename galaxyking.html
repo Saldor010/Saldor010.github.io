@@ -18,18 +18,36 @@
 		
 		<hr>
 		
-		<div class="gameInfo">
+		<div class="gameInfo" id="gameInfo">
 			<br>
 			<div class="gameInstructions">
 				If nothing appears on screen, try enabling scripts in your browser, or try using Firefox.
 			</div>
-			<br>
 			<div class="gameInstructions">
-				Use WASD or the arrow keys to move your star around the galaxy.
+				Use WASD or the arrow keys to accelerate your star around the galaxy.
+			</div>
+			<div class="gameInstructions">
+				Eat smaller stars to grow bigger, avoid larger stars or they'll eat you!
 			</div>
 		</div>
 		
-		<iframe src="galaxykingsource.html" class="gameFrame">
+		<div class="mobileWarning">
+			<div class="mobileWarningInner">
+				Sorry! This game isn't supported for mobile devices.
+			</div>
+			<div class="mobileWarningInner">
+				If you're not playing on a mobile device, or if you're a mad lad and you don't care about warnings, click the button below to proceed to the game.
+			</div>
+			<div class="mobileWarningButton" onclick="
+				this.parentElement.style.display = 'none';
+				document.getElementById('gameFrame').style.display = 'initial';
+				//document.getElementById('gameInfo').style.display = 'initial';
+			">
+				Proceed
+			</div>
+		</div>
+		
+		<iframe src="galaxykingsource.html" class="gameFrame" id="gameFrame">
 		
 		</iframe>
 		

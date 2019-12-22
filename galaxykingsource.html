@@ -37,8 +37,10 @@
 	<canvas id="gameCanvas">
 		<script>
 			var stars = new Array();
-			var mapSize_X = 3000;
-			var mapSize_Y = 3000;
+			var aliveStars = 0;
+			var mapSize_X = 5000;
+			var mapSize_Y = 5000;
+			var outOfBoundsThreshold = 200;
 			var camera_X = 0; // Upper left hand corner of camera
 			var camera_Y = 0;
 			var G = 10000000;
@@ -63,6 +65,7 @@
 			
 			var gameOver = true;
 			var score = 0;
+			var highScore = 0;
 			
 			function resetCanvas() {
 				canvas.width = window.innerWidth;
@@ -90,6 +93,11 @@
 				//console.log(star.radius);
 			}
 			
+			function cleanAllStars() {
+				stars = new Array();
+				aliveStars = 0;
+			}
+			
 			function generatePlayerStar() {
 				var newStar = {
 					x: mapSize_X/2,
@@ -109,13 +117,18 @@
 				}
 				recalculateRadius(newStar);
 				stars[0] = newStar;
+				aliveStars++;
 			}
 			
 			function generateStars(j,m) {
 				for(var i=1;i<j;i++) {
+					var nx = Math.random()*mapSize_X
+					var ny = Math.random()*mapSize_Y;
+					while(nx > camera_X && nx < camera_X+window.innerWidth) { nx = Math.random()*mapSize_X; }
+					while(ny > camera_Y && ny < camera_Y+window.innerHeight) { ny = Math.random()*mapSize_Y; }
 					var newStar = {
-						x: Math.random()*mapSize_X,
-						y: Math.random()*mapSize_Y,
+						x: nx,
+						y: ny,
 						radius: 5,
 						color: "rgb("+Math.random()*155+100+","+Math.random()*155+100+","+Math.random()*155+100+")",
 						velocity_X: (Math.random()*100)-50,
@@ -131,6 +144,7 @@
 					}
 					recalculateRadius(newStar);
 					stars.push(newStar);
+					aliveStars++;
 				}
 			}
 			
@@ -178,6 +192,13 @@
 				for(var i=0;i<stars.length;i++) {
 					var currentStar = stars[i];
 					
+					if(currentStar != null) { // Check if out of bounds before performing physics
+						if(currentStar.x < 0-outOfBoundsThreshold || currentStar.x > mapSize_X+outOfBoundsThreshold || currentStar.y < 0-outOfBoundsThreshold || currentStar.y > mapSize_Y+outOfBoundsThreshold) {
+							stars[i] = null;
+							aliveStars--;
+						}
+					}
+					
 					if(currentStar != null) {
 						
 						var eaten = false;
@@ -206,6 +227,7 @@
 											currentStar.mass = currentStar.mass + otherStar.mass
 											recalculateRadius(currentStar);
 											stars[j] = null;
+											aliveStars--;
 											break;
 										}
 									}
@@ -248,6 +270,7 @@
 							
 						} else {
 							stars[i] = null;
+							aliveStars--;
 						}
 						
 					}
@@ -270,7 +293,7 @@
 			
 				score = 0;
 				iterations = 0;
-				stars = new Array();
+				cleanAllStars()
 				
 				headerText("");
 				subText("");
@@ -284,7 +307,7 @@
 			
 			window.onkeydown = function(e) { 
 			
-				if(gameOver == true && headerTextOpacity > 0.5) {
+				if(gameOver == true && headerTextOpacity > 0.9) {
 					gameOver = false;
 					newGame();
 				}
@@ -351,20 +374,32 @@
 					drawStars(false);
 				}
 				
-				if(progress > 1) {
-					iterations++;
-					generateStars(5,0.00419 * iterations);
-					progress = progress - 10;
-				}
-				
 				if(stars[0] == null && gameOver == false) { // Player eaten
 					gameOver = true;
 					headerTextOpacity = 0;
 					headerText("You were eaten!");
 					subTextOpacity = 0;
 					subText("Press any key to play again.");
+					
+					// Old generation code, now used for between game cintematics
+					if(progress > 1) {
+						iterations++;
+						generateStars(5,0.00419 * iterations);
+						progress = progress - 10;
+					}
 				} else if(stars[0] != null && gameOver == false) {
 					score = Math.ceil((stars[0].mass - startingPlayerMass)*1000);
+					if(score > highScore) { highScore = score; }
+					
+					if(progress > 3) {
+						if(aliveStars < 50) {
+							console.log("New stars generated!");
+							generateStars(25,stars[0].mass*0.25);
+							generateStars(10,stars[0].mass*2);
+							generateStars(5,stars[0].mass*3);
+						}
+						progress = progress - 3
+					}
 				}
 				
 				headerTextOpacity = headerTextOpacity + diffTime;
@@ -377,7 +412,7 @@
 				context.textAlign = "center";
 				context.fillText(headerActualText, canvas.width*0.5, canvas.height*0.4); 
 				
-				context.font = "50px consolas";
+				context.font = "40px consolas";
 				context.fillStyle = "rgb(255,255,0,"+subTextOpacity+")";
 				context.textAlign = "center";
 				context.fillText(subActualText, canvas.width*0.5, canvas.height*0.6); 
@@ -385,7 +420,12 @@
 				context.font = "40px consolas";
 				context.fillStyle = "rgb(255,255,0,1)";
 				context.textAlign = "left";
-				context.fillText("Score: "+score, 20, 40); 
+				context.fillText("Score: "+score, 20, 40);
+				
+				context.font = "40px consolas";
+				context.fillStyle = "rgb(255,255,0,1)";
+				context.textAlign = "left";
+				context.fillText("Highscore: "+highScore, 20, 80); 
 				
 				//document.getElementById("headerText").style.opacity = headerTextOpacity;
 				//document.getElementById("subText").style.opacity = subTextOpacity;
