@@ -45,6 +45,16 @@
 			var camera_Y = 0;
 			var G = 10000000;
 			
+			var originalScale = 0;
+			var scale = 1;
+			var nextScale = 1;
+			var promoteScaleGoal = 200/1000 // At what mass do we start decreasing the scale
+			var promoteScaleFactor = 10 // What's the next step of mass that we decrease the scale at?
+			var scalingFactor = 0.5 // How much do we scale by each step?
+			var scaleDebounce = 1;
+			var scaleDebounceLimit = 1; // How long does it take for the scaling to finish
+			var promoteScaleMapFactor = 1.5 // How much do we scale the map size by each step?
+			
 			var canvas = document.getElementById("gameCanvas");
 			var context = canvas.getContext("2d");
 			
@@ -67,6 +77,21 @@
 			var score = 0;
 			var highScore = 0;
 			
+			function promoteScale() {
+				originalScale = scale;
+				nextScale = scale*scalingFactor;
+				promoteScaleGoal = promoteScaleGoal * promoteScaleFactor;
+				mapSize_X = mapSize_X * promoteScaleMapFactor;
+				mapSize_Y = mapSize_Y * promoteScaleMapFactor;
+				scaleDebounce = 0;
+			}
+			
+			function checkForScalePromotion() {
+				if(stars[0].mass >= promoteScaleGoal) {
+					promoteScale();
+				}
+			}
+			
 			function resetCanvas() {
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
@@ -81,8 +106,8 @@
 			
 			function recenterCamera() {
 				if(stars[0] != null) {
-					camera_X = stars[0].x - (window.innerWidth/2);// + stars[0].acceleration_X;
-					camera_Y = stars[0].y - (window.innerHeight/2);// + stars[0].acceleration_Y;
+					camera_X = stars[0].x - (window.innerWidth/2)*1;// + stars[0].acceleration_X;
+					camera_Y = stars[0].y - (window.innerHeight/2)*1;// + stars[0].acceleration_Y;
 					if(camera_X < 0) { camera_X = 0; } else if (camera_X > mapSize_X - window.innerWidth) { camera_X = mapSize_X - window.innerWidth; }
 					if(camera_Y < 0) { camera_Y = 0; } else if (camera_Y > mapSize_Y - window.innerHeight) { camera_Y = mapSize_Y - window.innerHeight; }
 				}
@@ -120,12 +145,26 @@
 				aliveStars++;
 			}
 			
+			function getRelativePositionOnCamera_X(x) {
+				var relativePosition = (x-camera_X);
+				var middleOfScreen = window.innerWidth/2;
+				var adjust = (middleOfScreen-relativePosition)*(-scale+1);
+				return relativePosition+adjust;
+			}
+			
+			function getRelativePositionOnCamera_Y(y) {
+				var relativePosition = (y-camera_Y);
+				var middleOfScreen = window.innerHeight/2;
+				var adjust = (middleOfScreen-relativePosition)*(-scale+1);
+				return relativePosition+adjust;
+			}
+			
 			function generateStars(j,m) {
 				for(var i=1;i<j;i++) {
 					var nx = Math.random()*mapSize_X
 					var ny = Math.random()*mapSize_Y;
-					while(nx > camera_X && nx < camera_X+window.innerWidth) { nx = Math.random()*mapSize_X; }
-					while(ny > camera_Y && ny < camera_Y+window.innerHeight) { ny = Math.random()*mapSize_Y; }
+					while(getRelativePositionOnCamera_X(nx) > 0 && getRelativePositionOnCamera_X(nx) < 0+window.innerWidth) { nx = Math.random()*mapSize_X; }
+					while(getRelativePositionOnCamera_Y(ny) > 0 && getRelativePositionOnCamera_Y(ny) < 0+window.innerHeight) { ny = Math.random()*mapSize_Y; }
 					var newStar = {
 						x: nx,
 						y: ny,
@@ -154,7 +193,7 @@
 					if(currentStar != null) {
 					
 						context.beginPath();
-						context.arc(currentStar.x-camera_X,currentStar.y-camera_Y,currentStar.radius,0,2*Math.PI,false);
+						context.arc(getRelativePositionOnCamera_X(currentStar.x),getRelativePositionOnCamera_Y(currentStar.y),currentStar.radius*scale,0,2*Math.PI,false);
 						context.fillStyle = currentStar.color;
 						context.fill();
 						
@@ -162,7 +201,7 @@
 							if(currentStar.memory[j] != null) {
 							
 								context.beginPath();
-								context.arc(currentStar.memory[j].x-camera_X,currentStar.memory[j].y-camera_Y,currentStar.radius/2,0,2*Math.PI,false);
+								context.arc(getRelativePositionOnCamera_X(currentStar.memory[j].x),getRelativePositionOnCamera_Y(currentStar.memory[j].y),(currentStar.radius/2)*scale,0,2*Math.PI,false);
 								//console.log(currentStar.color.substring(3,currentStar.color.length-1));
 								context.fillStyle = "rgba"+currentStar.color.substring(3,currentStar.color.length-1)+",0.1)";
 								context.fill();
@@ -293,7 +332,14 @@
 			
 				score = 0;
 				iterations = 0;
+				scale = 
 				cleanAllStars()
+				
+				originalScale = 0;
+				scale = 1;
+				nextScale = 1;
+				promoteScaleGoal = 200/1000 // At what mass do we start decreasing the scale
+				scaleDebounce = 0;
 				
 				headerText("");
 				subText("");
@@ -391,15 +437,28 @@
 					score = Math.ceil((stars[0].mass - startingPlayerMass)*1000);
 					if(score > highScore) { highScore = score; }
 					
+					checkForScalePromotion();
+					
 					if(progress > 3) {
 						if(aliveStars < 50) {
 							console.log("New stars generated!");
+							generateStars(8,0.00419);
 							generateStars(25,stars[0].mass*0.25);
-							generateStars(10,stars[0].mass*2);
-							generateStars(5,stars[0].mass*3);
+							generateStars(6,stars[0].mass*1.25);
+							generateStars(5,stars[0].mass*2);
+							generateStars(1,stars[0].mass*3);
 						}
 						progress = progress - 3
 					}
+				}
+				
+				if(scaleDebounce < scaleDebounceLimit) {
+					console.log(scaleDebounce);
+					scaleDebounce = scaleDebounce + diffTime;
+					if(scaleDebounce >= scaleDebounceLimit) {
+						scaleDebounce = scaleDebounceLimit;
+					}
+					scale = originalScale + ((nextScale - originalScale)*(scaleDebounce/scaleDebounceLimit));
 				}
 				
 				headerTextOpacity = headerTextOpacity + diffTime;
